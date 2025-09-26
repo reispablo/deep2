@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechStore - Eletrônicos</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #34495e;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+            padding-top: 80px;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .logo span {
+            color: var(--secondary);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 20px;
+            position: relative;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+        
+        .user-actions {
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-cart {
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-box {
+            position: relative;
+            margin-right: 20px;
+        }
+        
+        .search-box input {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            width: 200px;
+        }
+        
+        .cart-icon, .login-btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+            display: flex;
+            align-items: center;
+            transition: background 0.3s;
+        }
+        
+        .cart-icon:hover, .login-btn:hover {
+            background: #2980b9;
+        }
+        
+        .cart-count {
+            background-color: var(--accent);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 5px;
+        }
+        
+        /* Banner */
+        .banner {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 100px 0;
+            margin-bottom: 40px;
+        }
+        
+        .banner h1 {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+        
+        .banner p {
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto 20px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        /* Produtos */
+        .section-title {
+            text-align: center;
+            margin: 40px 0 30px;
+            font-size: 32px;
+            color: var(--primary);
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--secondary);
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+        
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .product-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .product-image {
+            height: 220px;
+            background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .product-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.5s;
+        }
+        
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-title {
+            font-size: 18px;
+            margin-bottom: 12px;
+            height: 50px;
+            overflow: hidden;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .product-price {
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .product-price .old-price {
+            font-size: 16px;
+            color: #999;
+            text-decoration: line-through;
+            margin-right: 10px;
+        }
+        
+        .product-rating {
+            color: #f39c12;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .product-rating span {
+            color: #777;
+            margin-left: 8px;
+            font-size: 14px;
+        }
+        
+        .add-to-cart {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .add-to-cart:hover {
+            background-color: var(--secondary);
+        }
+        
+        .add-to-cart i {
+            margin-right: 8px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--primary);
+            color: white;
+            padding: 50px 0 20px;
+            margin-top: 70px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            margin-bottom: 20px;
+            font-size: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--secondary);
+            border-radius: 2px;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            margin-top: 15px;
+        }
+        
+        .newsletter-form input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 4px 0 0 4px;
+        }
+        
+        .newsletter-form button {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0 15px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #34495e;
+            color: #bdc3c7;
+            font-size: 14px;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: slideIn 0.3s;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #7f8c8d;
+            transition: color 0.3s;
+        }
+        
+        .close-modal:hover {
+            color: var(--accent);
+        }
+        
+        .modal h2 {
+            margin-bottom: 25px;
+            text-align: center;
+            color: var(--primary);
+            font-size: 28px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        
+        .form-group input:focus {
+            border-color: var(--secondary);
+            outline: none;
+        }
+        
+        .modal-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+        
+        .modal-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .modal-links {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .modal-links a {
+            color: var(--secondary);
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+        
+        .modal-links a:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+        
+        /* BUGS ALTER FACE - TODOS OS 9 PRINCÍPIOS */
+        
+        /* 1. ACTIVATION - Elementos que não mudam de estado */
+        .btn-bug-activation {
+            transition: none !important;
+        }
+        
+        .btn-bug-activation:active {
+            transform: none !important;
+            background-color: var(--secondary) !important;
+        }
+        
+        .checkbox-bug-activation {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary);
+            border-radius: 3px;
+            cursor: pointer;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        
+        .checkbox-bug-activation:checked {
+            background-color: transparent !important;
+            border-color: var(--primary) !important;
+        }
+        
+        /* 2. LAYERS - Elementos em camadas incorretas (CORRIGIDO) */
+        .floating-bug-layers {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--accent);
+            color: white;
+            padding: 20px;
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 10000; /* Z-index MUITO alto - cobre o modal */
+            cursor: pointer;
+            transition: transform 0.3s;
+            font-size: 24px;
+        }
+        
+        .modal-bug-layers {
+            z-index: 2000; /* Modal com z-index normal */
+        }
+        
+        /* 3. TIMING - Problemas de temporização */
+        .notification-bug-timing {
+            position: fixed;
+            top: 100px;
+            right: 30px;
+            background: #2ecc71;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            z-index: 1000;
+            animation: superFastFadeOut 0.5s forwards;
+            animation-delay: 0.5s;
+        }
+        
+        @keyframes superFastFadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; visibility: hidden; }
+        }
+        
+        .loading-bug-timing {
+            transition: all 10s;
+        }
+        
+        /* 4. NO-OVERLAP - Sobreposição de elementos */
+        .overlap-bug-1 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: rgba(52, 152, 219, 0.9);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            z-index: 5;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .overlap-bug-2 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: rgba(231, 76, 60, 0.9);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            z-index: 6;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .text-overflow-bug {
+            white-space: nowrap;
+            overflow: visible;
+            width: 150px;
+            border: 2px solid #e74c3c;
+            padding: 10px;
+            background: #ffeaa7;
+        }
+        
+        /* 5. REMOVABLE - Elementos que não podem ser removidos */
+        .sticky-bug-removable {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: #f39c12;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            z-index: 999;
+        }
+        
+        .modal-bug-removable {
+            /* Modal que não fecha */
+        }
+        
+        /* 6. FLOAT - Problemas com elementos flutuantes (CORRIGIDO) */
+        .float-bug-1 {
+            position: fixed;
+            bottom: 120px;
+            right: 30px;
+            background: #9b59b6;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            z-index: 998;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .sticky-bug-float {
+            position: sticky;
+            top: 80px;
+            background: #27ae60;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            z-index: 99;
+            font-weight: bold;
+        }
+        
+        /* 7. ACHIEVABLE - Elementos inacessíveis */
+        .hidden-bug-achievable {
+            margin-top: 2000px;
+            padding: 40px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            text-align: center;
+            border: 3px dashed #e74c3c;
+        }
+        
+        .scroll-bug-achievable {
+            position: fixed;
+            bottom: 180px;
+            right: 30px;
+            background: #2c3e50;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            z-index: 997;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        /* 8. COLLISION - Colisão entre elementos (CORRIGIDO) */
+        .collision-demo {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            background: #f8f9fa;
+            border: 2px dashed #ccc;
+            margin: 30px 0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .moving-bug-collision {
+            position: absolute;
+            animation: aggressiveMove 5s infinite linear;
+            background: #e74c3c;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            width: 180px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            z-index: 10;
+        }
+        
+        @keyframes aggressiveMove {
+            0% { left: 0; top: 0; }
+            25% { left: calc(100% - 180px); top: 0; }
+            50% { left: calc(100% - 180px); top: calc(100% - 60px); }
+            75% { left: 0; top: calc(100% - 60px); }
+            100% { left: 0; top: 0; }
+        }
+        
+        .collision-element {
+            position: absolute;
+            background: #3498db;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            top: 70px;
+            left: 40%;
+            transform: translateX(-50%);
+            z-index: 5;
+        }
+        
+        .tooltip-bug-collision {
+            position: absolute;
+            background: #333;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 5px;
+            font-size: 14px;
+            z-index: 1000;
+            white-space: nowrap;
+            left: 100vw;
+            transform: translateX(-100%);
+            top: -50px;
+        }
+        
+        /* 9. EXPANSION - Expansão inadequada de elementos (CORRIGIDO) */
+        .expand-bug-1 {
+            border: 3px solid #e74c3c;
+            padding: 15px;
+            width: 300px;
+            height: 120px;
+            overflow: visible !important;
+            margin: 30px auto;
+            background: #ffeaa7;
+            position: relative;
+        }
+        
+        .expand-bug-1:after {
+            content: 'ESTE CONTEÚDO ESTÁ VAZANDO DO CONTAINER!';
+            position: absolute;
+            bottom: -40px;
+            left: 0;
+            background: #e74c3c;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .image-bug-expansion {
+            max-width: none !important;
+            width: 120% !important;
+            height: auto;
+            border: 3px solid #e74c3c;
+            margin-left: -10%;
+        }
+        
+        /* Painel de Relatório */
+        .bug-report-panel {
+            position: fixed;
+            top: 100px;
+            left: 20px;
+            background: white;
+            border: 2px solid var(--accent);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            z-index: 10000;
+            max-width: 350px;
+            max-height: 500px;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+        
+        .bug-report-panel h3 {
+            margin-bottom: 15px;
+            color: var(--primary);
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 10px;
+        }
+        
+        .bug-category {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .bug-category h4 {
+            margin-bottom: 8px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+        }
+        
+        .bug-category h4:before {
+            content: '';
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent);
+            margin-right: 8px;
+        }
+        
+        .bug-item {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+            background: #f8f9fa;
+            padding: 8px;
+            border-radius: 4px;
+            border-left: 3px solid var(--secondary);
+        }
+        
+        .bug-item:before {
+            content: '•';
+            position: absolute;
+            left: 8px;
+            color: var(--secondary);
+            font-weight: bold;
+        }
+        
+        .toggle-report {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            z-index: 10001;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            font-weight: 600;
+        }
+        
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 15px;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 10px;
+            }
+            
+            .user-actions {
+                margin-top: 15px;
+            }
+            
+            .products {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .bug-report-panel {
+                max-width: 90%;
+                left: 5%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Painel de Relatório de Bugs -->
+    <button class="toggle-report" onclick="toggleReport()">Mostrar Relatório de Bugs</button>
+    <div class="bug-report-panel" id="bugReportPanel" style="display: none;">
+        <h3>Relatório de Bugs - Heurística ALTER FACE</h3>
+        <div id="bugReportContent">
+            <!-- Conteúdo será preenchido via JavaScript -->
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">Tech<span>Store</span></div>
+                <nav>
+                    <ul>
+                        <li><a href="#">Início</a></li>
+                        <li><a href="#">Produtos</a></li>
+                        <li><a href="#">Ofertas</a></li>
+                        <li><a href="#">Sobre</a></li>
+                        <li><a href="#">Contato</a></li>
+                    </ul>
+                </nav>
+                <div class="user-actions">
+                    <div class="search-cart">
+                        <div class="search-box">
+                            <input type="text" placeholder="Buscar produtos...">
+                        </div>
+                        <button class="cart-icon">🛒 <span class="cart-count">3</span></button>
+                        <button class="login-btn" onclick="openLoginModal()">Login</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- FLOAT Bug: Sticky header -->
+    <div class="sticky-bug-float" id="stickyHeader">
+        🚚 Frete grátis para todo o Brasil!
+    </div>
+
+    <!-- Banner -->
+    <section class="banner">
+        <div class="container">
+            <h1>As Melhores Ofertas em Eletrônicos</h1>
+            <p>Descubra smartphones, laptops, tablets e acessórios com os melhores preços do mercado.</p>
+            <button class="btn btn-bug-activation" onclick="showNotification()">Ver Ofertas</button>
+            
+            <!-- TIMING Bug: Notificação rápida -->
+            <div class="notification-bug-timing" id="timingNotification" style="display: none;">
+                Oferta especial por tempo limitado!
+            </div>
+        </div>
+    </section>
+
+    <!-- Conteúdo Principal -->
+    <div class="container">
+        <h2 class="section-title">Produtos em Destaque</h2>
+        
+        <!-- ACTIVATION Bug: Checkbox sem feedback -->
+        <div style="margin: 20px 0; text-align: center; background: #f8f9fa; padding: 15px; border-radius: 5px;">
+            <label style="display: inline-flex; align-items: center;">
+                <input type="checkbox" class="checkbox-bug-activation" id="newsletterCheckbox">
+                Desejo receber ofertas por e-mail (checkbox não muda quando marcado)
+            </label>
+        </div>
+        
+        <!-- NO-OVERLAP Bug: Elementos sobrepostos -->
+        <div style="position: relative; height: 80px; margin: 25px 0; background: #f8f9fa; border-radius: 5px; display: flex; align-items: center; justify-content: center;">
+            <div class="overlap-bug-1">Promoção Relâmpago!</div>
+            <div class="overlap-bug-2">Aproveite Agora!</div>
+        </div>
+        
+        <!-- NO-OVERLAP Bug: Texto que ultrapassa -->
+        <div style="margin: 20px 0; display: flex; justify-content: center;">
+            <div class="text-overflow-bug">Este texto claramente ultrapassa os limites do container</div>
+        </div>
+        
+        <div class="products">
+            <!-- Produtos... -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Smartphone">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Smartphone XYZ - 128GB, Tela 6.5"</h3>
+                    <div class="product-price">R$ 1.299,99</div>
+                    <div class="product-rating">★★★★☆ (124)</div>
+                    <button class="add-to-cart" onclick="addToCart(1)">Adicionar ao Carrinho</button>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Laptop">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Laptop ABC - Intel i7, 16GB RAM, 512GB SSD</h3>
+                    <div class="product-price">R$ 3.499,99</div>
+                    <div class="product-rating">★★★★★ (87)</div>
+                    <button class="add-to-cart" onclick="addToCart(2)">Adicionar ao Carrinho</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- TIMING Bug: Carregamento lento -->
+        <div class="loading-bug-timing" style="text-align: center; padding: 30px; background: #f0f0f0; border-radius: 10px; margin: 30px 0;">
+            <button class="btn" onclick="simulateSlowLoad()">Carregar Mais Produtos (10 segundos)</button>
+        </div>
+        
+        <!-- COLLISION Bug 1: Elemento animado que colide -->
+        <div class="collision-demo">
+            <div class="moving-bug-collision">
+                🏃 OFERTA EM DESTAQUE! (Colide com o elemento azul)
+            </div>
+            <div class="collision-element">
+                ELEMENTO FIXO (Sendo coberto)
+            </div>
+        </div>
+        
+        <!-- COLLISION Bug 2: Tooltip fora da tela -->
+        <div style="position: relative; height: 100px; margin: 40px 0; display: flex; justify-content: center; align-items: center; background: #f0f0f0; border-radius: 5px;">
+            <button class="btn" id="tooltipButton" onmouseover="showTooltip()" onmouseout="hideTooltip()">
+                Passe o mouse aqui (Tooltip FORA da tela)
+            </button>
+        </div>
+        
+        <!-- EXPANSION Bug 1: Conteúdo que ultrapassa -->
+        <div class="expand-bug-1">
+            <h4>Informações Importantes</h4>
+            <p>Este conteúdo claramente ultrapassa os limites do container designado.</p>
+        </div>
+        
+        <!-- EXPANSION Bug 2: Imagem maior -->
+        <div style="width: 300px; margin: 40px auto; border: 3px solid #e74c3c; padding: 20px; border-radius: 5px; background: #ffeaa7; text-align: center;">
+            <p><strong>Imagem 20% maior que o container:</strong></p>
+            <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" 
+                 alt="Smartphone" class="image-bug-expansion">
+        </div>
+        
+        <!-- ACHIEVABLE Bug: Conteúdo inacessível -->
+        <div class="hidden-bug-achievable">
+            <h3>🚨 OFERTAS EXCLUSIVAS (2000px abaixo)</h3>
+            <p>Desconto especial de 20% em todos os produtos.</p>
+            <button class="btn" onclick="alert('Oferta aplicada!')">Aplicar Desconto</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>TechStore</h3>
+                    <ul>
+                        <li><a href="#">Sobre nós</a></li>
+                        <li><a href="#">Nossas lojas</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023 TechStore. Todos os direitos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal de Login -->
+    <div class="modal modal-bug-layers modal-bug-removable" id="loginModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeLoginModal()">&times;</span>
+            <h2>Login</h2>
+            <p style="color: #e74c3c; margin-bottom: 15px; font-weight: bold;">⚠️ O botão de chat cobre este modal!</p>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="modal-btn">Entrar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- LAYERS Bug: Chat cobre modal -->
+    <div class="floating-bug-layers" onclick="alert('Chat cobrindo o modal!')">
+        💬
+    </div>
+
+    <!-- REMOVABLE Bug: Notificação sem fechar -->
+    <div class="sticky-bug-removable" id="stickyNotification">
+        📢 Notificação permanente SEM botão de fechar!
+    </div>
+
+    <!-- FLOAT Bug: Elemento para de flutuar -->
+    <div class="float-bug-1" id="helpButton">
+        ?
+    </div>
+
+    <!-- ACHIEVABLE Bug: Botão some ao rolar -->
+    <div class="scroll-bug-achievable" id="scrollToTop" onclick="scrollToTop()">
+        ↑ Topo
+    </div>
+
+    <script>
+        // Variáveis globais
+        let cartItems = 3;
+        let isReportVisible = false;
+        
+        // Elementos DOM
+        const loginModal = document.getElementById('loginModal');
+        const stickyNotification = document.getElementById('stickyNotification');
+        const timingNotification = document.getElementById('timingNotification');
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+        const bugReportPanel = document.getElementById('bugReportPanel');
+        const bugReportContent = document.getElementById('bugReportContent');
+        const stickyHeader = document.getElementById('stickyHeader');
+        const helpButton = document.getElementById('helpButton');
+        
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configurar evento de scroll para bugs
+            window.addEventListener('scroll', function() {
+                const scrollPosition = window.scrollY;
+                
+                // FLOAT Bug 1: Elemento para de flutuar após 200px
+                if (scrollPosition > 200) {
+                    helpButton.style.position = 'absolute';
+                    helpButton.style.top = (scrollPosition + 200) + 'px';
+                    helpButton.style.bottom = 'auto';
+                    helpButton.innerHTML = '?<br>(Parei de flutuar)';
+                } else {
+                    helpButton.style.position = 'fixed';
+                    helpButton.style.bottom = '120px';
+                    helpButton.style.top = 'auto';
+                    helpButton.innerHTML = '?';
+                }
+                
+                // FLOAT Bug 2: Sticky header para após 300px
+                if (scrollPosition > 300) {
+                    stickyHeader.style.position = 'static';
+                    stickyHeader.style.background = '#e74c3c';
+                    stickyHeader.innerHTML = '🚚 Frete grátis (Sticky DESATIVADO)';
+                } else {
+                    stickyHeader.style.position = 'sticky';
+                    stickyHeader.style.background = '#27ae60';
+                    stickyHeader.innerHTML = '🚚 Frete grátis para todo o Brasil!';
+                }
+                
+                // ACHIEVABLE Bug: Botão some após 500px
+                if (scrollPosition > 500) {
+                    scrollToTopBtn.style.opacity = '0';
+                    scrollToTopBtn.style.pointerEvents = 'none';
+                } else {
+                    scrollToTopBtn.style.opacity = '1';
+                    scrollToTopBtn.style.pointerEvents = 'auto';
+                }
+            });
+            
+            generateBugReport();
+        });
+        
+        // ACTIVATION Bug: Botão sem feedback
+        function showNotification() {
+            timingNotification.style.display = 'block';
+            setTimeout(() => {
+                timingNotification.style.display = 'none';
+            }, 500);
+        }
+        
+        // TIMING Bug: Carregamento lento
+        function simulateSlowLoad() {
+            alert('Carregando... (10 segundos)');
+            setTimeout(() => {
+                alert('Produtos carregados!');
+            }, 10000);
+        }
+        
+        // REMOVABLE Bug: Modal que não fecha
+        function closeLoginModal() {
+            // Só fecha a cada 2 tentativas
+            staticCloseAttempts = (staticCloseAttempts || 0) + 1;
+            if (staticCloseAttempts % 2 === 0) {
+                loginModal.style.display = 'none';
+            } else {
+                alert('Clique novamente para fechar (bug removable)');
+            }
+        }
+        
+        function openLoginModal() {
+            loginModal.style.display = 'flex';
+            staticCloseAttempts = 0;
+        }
+        
+        // COLLISION Bug: Tooltip fora da tela
+        function showTooltip() {
+            const tooltip = document.createElement('div');
+            tooltip.className = 'tooltip-bug-collision';
+            tooltip.textContent = 'Tooltip FORA da tela!';
+            tooltip.id = 'dynamicTooltip';
+            document.body.appendChild(tooltip);
+        }
+        
+        function hideTooltip() {
+            const tooltip = document.getElementById('dynamicTooltip');
+            if (tooltip) tooltip.remove();
+        }
+        
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function addToCart(productId) {
+            cartItems++;
+            document.querySelector('.cart-count').textContent = cartItems;
+            alert('Produto adicionado!');
+        }
+        
+        function toggleReport() {
+            isReportVisible = !isReportVisible;
+            bugReportPanel.style.display = isReportVisible ? 'block' : 'none';
+            document.querySelector('.toggle-report').textContent = 
+                isReportVisible ? 'Ocultar Relatório' : 'Mostrar Relatório';
+        }
+        
+        function generateBugReport() {
+            const bugs = [
+                {
+                    category: 'ACTIVATION',
+                    items: [
+                        'Botão "Ver Ofertas" sem feedback visual ao clicar',
+                        'Checkbox não muda aparência quando marcado'
+                    ]
+                },
+                {
+                    category: 'LAYERS',
+                    items: [
+                        'Botão de chat (💬) com z-index 10000 cobre o modal',
+                        'Abra o modal de login para ver o problema'
+                    ]
+                },
+                {
+                    category: 'TIMING',
+                    items: [
+                        'Notificação desaparece em 0.5 segundos (muito rápido)',
+                        'Carregamento demora 10 segundos (muito lento)'
+                    ]
+                },
+                {
+                    category: 'NO-OVERLAP',
+                    items: [
+                        'Elementos de promoção completamente sobrepostos',
+                        'Texto ultrapassa limites do container'
+                    ]
+                },
+                {
+                    category: 'REMOVABLE',
+                    items: [
+                        'Notificação permanente sem botão de fechar',
+                        'Modal só fecha a cada 2 tentativas'
+                    ]
+                },
+                {
+                    category: 'FLOAT',
+                    items: [
+                        'Botão de ajuda (?) para de flutuar após 200px',
+                        'Header sticky para de funcionar após 300px'
+                    ]
+                },
+                {
+                    category: 'ACHIEVABLE',
+                    items: [
+                        'Conteúdo importante a 2000px do topo',
+                        'Botão "Voltar ao Topo" some após 500px'
+                    ]
+                },
+                {
+                    category: 'COLLISION',
+                    items: [
+                        'Elemento animado colide com elemento fixo',
+                        'Tooltip aparece fora dos limites da tela'
+                    ]
+                },
+                {
+                    category: 'EXPANSION',
+                    items: [
+                        'Conteúdo ultrapassa limites do container',
+                        'Imagem 20% maior que o container'
+                    ]
+                }
+            ];
+            
+            let html = '';
+            bugs.forEach(category => {
+                html += `<div class="bug-category"><h4>${category.category}</h4>`;
+                category.items.forEach(item => {
+                    html += `<div class="bug-item">${item}</div>`;
+                });
+                html += `</div>`;
+            });
+            bugReportContent.innerHTML = html;
+        }
+        
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Login simulado!');
+        });
+    </script>
+</body>
+</html>
